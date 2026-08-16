@@ -1,69 +1,60 @@
-import Image from "next/image";
+
+"use client"
+
+import Folder from "@/components/folder";
+import { useState } from "react";
+
 
 export default function Home() {
+  const [openFolder, setOpenFolder] = useState<string | null>(null);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="h-screen w-screen flex flex-col overflow-hidden bg-blue-300">
+
+      <div className="relative px-16 overflow-hidden py-18 flex-1 flex gap-15 items-start">
+
+        <div className="grid gap-10 grid-rows-7">
+          <Folder folderName={"RyukOS"} />
+          <Folder folderName={"Projects"} />
+          <Folder folderName={"Notes"} />
+
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div
+          onDoubleClick={(e) => {
+            e.preventDefault();
+
+            const link = document.createElement("a");
+            link.href = "https://codedbyryuk.pages.dev/";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.click();
+          }}
+
+          className="flex gap-8 flex-col items-center justify-center">
+          <div className="flex hover:bg-[#ffffff6b] p-2 rounded-[12px] hover:cursor-pointer items-center justify-center flex-col">
+            <img className="w-16" src="/pfp_def.png" alt="" />
+            <span className="text-black text-[20px]">Portfolio</span>
+          </div>
+          <div onDoubleClick={(e) => {
+            e.preventDefault();
+
+            const link = document.createElement("a");
+            link.href = "https://github.com/codedbyryuk";
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.click();
+          }}
+            className="flex hover:bg-[#ffffff6b] p-2 rounded-[12px] hover:cursor-pointer items-center justify-center flex-col">
+            <svg className="w-13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="rgb(0, 0, 0)" d="M384 32c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l320 0zM223.7 96c-88.4 0-159.7 72.2-159.7 160.6 0 69.4 44.1 126.9 103.4 148.4 8.4 3.1 16.6-2.5 16.6-10.9l0-25c-4.4 1.9-10 3.1-15 3.1-20.6 0-32.8-11.2-41.6-32.2-3.4-8.4-7.2-13.4-14.4-14.4-3.7-.3-5-1.9-5-3.8 0-3.7 6.2-6.6 12.5-6.6 9.1 0 16.9 5.6 25 17.2 6.2 9.1 12.8 13.1 20.6 13.1s12.8-2.8 20-10c5.3-5.3 9.4-10 13.1-13.1-41.3-5-70.3-34.7-70.3-73.1 0-15.6 5.6-32.5 15-43.8-4.1-10.3-3.4-32.2 1.2-41.2 12.5-1.6 29.4 5 39.4 14.1 11.9-3.7 24.4-5.6 39.7-5.6s27.8 1.9 39.1 5.3c9.7-8.8 26.9-15.3 39.4-13.8 4.4 8.4 5 30.3 .9 40.9 10 11.9 15.3 27.8 15.3 44.1 0 38.4-29.1 67.5-70.9 72.8 10.6 6.9 17.8 21.9 17.8 39.1l0 32.5c0 9.4 7.8 14.7 17.2 10.9 56.6-21.6 100.9-78.1 100.9-148.1 0-88.4-71.9-160.6-160.3-160.6z" /></svg>
+            <span className="text-black text-[20px]">Github</span>
+          </div>
         </div>
-      </main>
-    </div>
+
+
+
+      </div>
+      <div className="h-16 bg-green-300 w-full "></div>
+
+    </main>
   );
 }

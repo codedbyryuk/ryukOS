@@ -52,5 +52,6 @@ Frontend:
         "ideas.txt",
         "todo.txt",
         "random.txt"
-    ]
+    ],
+    Comments:[]
 };

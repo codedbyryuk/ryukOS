@@ -186,7 +186,7 @@ export default function Terminal({onClose}:TerminalProp) {
     return (
         <div
             onClick={() => InputRef.current?.focus()}
-            className="p-8 absolute left-200 top-40 z-50 h-[670px] w-[800px] bg-[#0f0f0f] overflow-hidden font-mono text-[18px] shadow-2xl border border-white rounded-[12px]">
+            className="p-8 absolute left-200 top-40 h-[670px] w-[800px] bg-[#0f0f0f] overflow-hidden font-mono text-[18px] shadow-2xl border border-white rounded-[12px]">
 
             <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/20 bg-[#181818] px-4">
                 <span className="text-gray-300 text-[14px]">ryuk@ryukos ~</span>

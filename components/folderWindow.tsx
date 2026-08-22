@@ -1,8 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { filesystem } from "@/data/filesystem";
 import TextFileWindow from "./textFileWindow";
+import { db } from "@/lib/firebase";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+
+type CommentFile = {
+    name: string;
+    type: "file";
+    content: string;
+};
 
 type FolderWindowProps = {
     folderName: keyof typeof filesystem;
@@ -21,6 +29,36 @@ export default function FolderWindow({
         content: string;
     } | null>(null);
 
+    const [comments, setComments] = useState<CommentFile[]>([]);
+
+    /*
+     * Load saved comments when the Comments folder is opened.
+     */
+    useEffect(() => {
+
+        if (folderName !== "Comments") return;
+
+        const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const fetchedComments: CommentFile[] = snapshot.docs.map((doc, index) => {
+                const data = doc.data();
+                return {
+                    name: `comment-${index + 1}.txt`,
+                    type: "file",
+                    content: `Author: ${data.author || "Anonymous"}\n\n${data.text || ""}`,
+                };
+
+
+            });
+            setComments(fetchedComments);
+        });
+
+        return() => unsubscribe();
+
+    }, [folderName]);
+
+
     return (
         <>
             {/* Folder Window */}
@@ -32,6 +70,7 @@ export default function FolderWindow({
                 <div className="flex h-12 shrink-0 items-center justify-between border-b border-black/10 bg-[#eeeeee] px-4">
 
                     <div className="flex items-center gap-2">
+
                         <span className="text-lg">
                             📁
                         </span>
@@ -39,7 +78,9 @@ export default function FolderWindow({
                         <span className="text-sm font-medium">
                             {folderName}
                         </span>
+
                     </div>
+
 
                     <button
                         onClick={onClose}
@@ -56,6 +97,7 @@ export default function FolderWindow({
                 <div className="flex-1 overflow-auto bg-white p-5">
 
                     <div className="grid grid-cols-5 gap-4">
+
 
                         {/* RyukOS files */}
 
@@ -89,9 +131,10 @@ export default function FolderWindow({
                         }
 
 
-                        {/* Projects / Notes */}
+                        {/* Normal folders such as Notes */}
 
                         {Array.isArray(files) &&
+                            folderName !== "Comments" &&
                             files.map((fileName) => (
 
                                 <div
@@ -112,6 +155,37 @@ export default function FolderWindow({
                             ))
                         }
 
+
+                        {/* Comments */}
+
+                        {folderName === "Comments" &&
+                            comments.map((comment) => (
+
+                                <div
+                                    key={comment.name}
+                                    onDoubleClick={() =>
+                                        setOpenFile({
+                                            name: comment.name,
+                                            content: comment.content,
+                                        })
+                                    }
+                                    className="flex cursor-pointer flex-col items-center gap-2 rounded-lg p-3 hover:bg-blue-50"
+                                >
+
+                                    <div className="text-4xl">
+                                        📄
+                                    </div>
+
+                                    <span className="max-w-24 truncate text-center text-[18px]">
+                                        {comment.name}
+                                    </span>
+
+                                </div>
+
+                            ))
+                        }
+
+
                     </div>
 
                 </div>
@@ -121,14 +195,18 @@ export default function FolderWindow({
 
                 <div className="flex h-8 shrink-0 items-center border-t border-black/10 bg-[#f5f5f5] px-4 text-xs text-gray-500">
 
-                    {Array.isArray(files)
-                        ? files.length
-                        : Object.keys(files.children).length
+                    {folderName === "Comments"
+                        ? comments.length
+                        : Array.isArray(files)
+                            ? files.length
+                            : Object.keys(files.children).length
                     }
 
                     {" "}
-                    {(
-                        Array.isArray(files)
+
+                    {(folderName === "Comments"
+                        ? comments.length
+                        : Array.isArray(files)
                             ? files.length
                             : Object.keys(files.children).length
                     ) === 1
@@ -137,6 +215,7 @@ export default function FolderWindow({
                     }
 
                 </div>
+
 
             </div>
 

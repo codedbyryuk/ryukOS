@@ -9,16 +9,12 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const [openTerminal, setOpenTerminal] = useState(false);
-  const [openNotes,setOpenNotes] = useState(false);
+  const [openNotes, setOpenNotes] = useState(false);
   const [time, setTime] = useState(new Date().toLocaleTimeString());
 
-  
 
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      setTime(new Date().toLocaleTimeString());
-    }, 1000)
-  })
+
+  
   return (
     <main className="h-screen w-screen flex flex-col overflow-hidden bg-[url('/bg-image.jpg')] bg-cover">
 
@@ -65,18 +61,18 @@ export default function Home() {
           {openTerminal && (
             <Terminal onClose={() => setOpenTerminal(false)} />
           )}
-          {openNotes &&(
-            <Notepad onClose={()=>setOpenNotes(false)}/>
+          {openNotes && (
+            <Notepad onClose={() => setOpenNotes(false)} />
           )}
 
 
         </div>
         <div className="flex flex-col text-right pointer-events-none">
           <span className="text-9xl font-jersey text-[#ffffff7b]">{new Date().toLocaleDateString()}</span>
-          <span className="text-[11rem] font-jersey text-[#ffffff5c]">{new Date().toLocaleTimeString([],{
-            hour:'2-digit',
-            minute:'2-digit',
-            hour12:false,
+          <span className="text-[11rem] font-jersey text-[#ffffff5c]">{new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
           })}</span>
         </div>
 
@@ -85,9 +81,18 @@ export default function Home() {
       <div className="h-16 bg-[#caf0ff] w-full flex px-16 items-center justify-between">
 
         <span className="font-jersey text-3xl text-white bg-blue-500 p-2 rounded-[8px]">ROS</span>
+        <button
+          onClick={() => {
+            localStorage.removeItem("ryuk-comments");
+            window.location.reload();
+          }}
+          className="absolute bottom-20 left-16 rounded-md bg-red-500 px-3 py-2 text-sm text-white"
+        >
+          Clear test comments
+        </button>
 
         <div className="flex items-center justify-center gap-8">
-          <svg onClick={()=> setOpenNotes(true)} className="p-1 w-9 hover:scale-125 bg-blue-400 rounded-[8px] transition-all " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="lightGreen" d="M320 32l-8.6 0C300.4 12.9 279.7 0 256 0L128 0C104.3 0 83.6 12.9 72.6 32L64 32C28.7 32 0 60.7 0 96L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-352c0-35.3-28.7-64-64-64zM136 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l112 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-112 0z" /></svg>
+          <svg onClick={() => setOpenNotes(true)} className="p-1 w-9 hover:scale-125 bg-blue-400 rounded-[8px] transition-all " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="lightGreen" d="M320 32l-8.6 0C300.4 12.9 279.7 0 256 0L128 0C104.3 0 83.6 12.9 72.6 32L64 32C28.7 32 0 60.7 0 96L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-352c0-35.3-28.7-64-64-64zM136 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l112 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-112 0z" /></svg>
           <svg onClick={() => setOpenTerminal(true)} className="p-2 w-10 hover:scale-125 bg-blue-400 rounded-[8px] transition-all " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="rgb(0, 0, 0)" d="M9.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L146.7 256 9.4 118.6zM224 384l256 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" /></svg>
         </div>
 

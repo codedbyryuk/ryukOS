@@ -1,5 +1,5 @@
 'use client'
-
+import DraggableWindow from "./dragabbleWindow"
 type TextFileWindowProp={
     fileName:string,
     content:string,
@@ -8,10 +8,9 @@ type TextFileWindowProp={
 
 export default function TextFileReader({fileName,content,onClose}:TextFileWindowProp){
     return(
-        <div className="absolute left-100 top-50 flex h-[650px] w-[750px] flex-col overflow-hidden rounded-xl border border-black/10 bg-[#f5f5f5] text-black shadow-2xl">
-
-    
-      <div className="flex h-11 shrink-0 items-center justify-between border-b border-black/10 bg-[#eeeeee] px-4">
+      <DraggableWindow className="absolute left-100 top-50 flex h-[650px] w-[750px] flex-col overflow-hidden rounded-xl border border-black/10 bg-[#f5f5f5] text-black shadow-2xl"
+        titleBar={
+            <div className="flex h-11 shrink-0 items-center justify-between border-b border-black/10 bg-[#eeeeee] px-4">
 
         <div className="flex items-center gap-2">
           <span className="text-sm">📄</span>
@@ -28,6 +27,12 @@ export default function TextFileReader({fileName,content,onClose}:TextFileWindow
         </button>
 
       </div>
+        }
+      
+      >
+        
+    
+      
 
       
       <div className="flex-1 overflow-auto bg-white p-5">
@@ -36,6 +41,6 @@ export default function TextFileReader({fileName,content,onClose}:TextFileWindow
         </pre>
       </div>
 
-    </div>
+    </DraggableWindow>
     )
 }

@@ -1,16 +1,17 @@
 "use client"
 
+import DraggableWindow from "./dragabbleWindow";
 import { useState, useRef, useEffect } from "react";
 
 type TerminalLine = {
     type: "input" | "output",
     text: string,
-    
+
 }
-type TerminalProp ={
-    onClose:()=>void
+type TerminalProp = {
+    onClose: () => void
 }
-export default function Terminal({onClose}:TerminalProp) {
+export default function Terminal({ onClose }: TerminalProp) {
 
     const [input, setInput] = useState("");
     const [history, setHistory] = useState<TerminalLine[]>([
@@ -184,20 +185,19 @@ export default function Terminal({onClose}:TerminalProp) {
     }
 
     return (
-        <div
-            onClick={() => InputRef.current?.focus()}
-            className="p-8 absolute left-200 top-40 h-[670px] w-[800px] bg-[#0f0f0f] overflow-hidden font-mono text-[18px] shadow-2xl border border-white rounded-[12px]">
-
-            <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/20 bg-[#181818] px-4">
-                <span className="text-gray-300 text-[14px]">ryuk@ryukos ~</span>
-                <button onClick={onClose}
-                    className="flex h-6 w-7 items-center justify-center rounded text-gray-400 hover:bg-red-500 hover:text-white"
-                >
-                    ×
-                </button>
-            </div>
 
 
+        
+            <DraggableWindow className="p-8 absolute left-200 top-40 h-[670px] w-[800px] bg-[#0f0f0f] overflow-hidden font-mono text-[18px] shadow-2xl border border-white rounded-[12px]" titleBar={
+                <div className="flex h-10 shrink-0 items-center justify-between border-b border-white/20 bg-[#181818] px-4">
+                    <span className="text-gray-300 text-[14px]">ryuk@ryukos ~</span>
+                    <button onClick={onClose}
+                        className="flex h-6 w-7 items-center justify-center rounded text-gray-400 hover:bg-red-500 hover:text-white"
+                    >
+                        ×
+                    </button>
+                </div>
+            } >
             <div className="flex-1 overflow-y-auto p-5">
                 {
                     history.map((line, index) => (
@@ -243,8 +243,8 @@ export default function Terminal({onClose}:TerminalProp) {
 
                 </div>
             </div>
+               </DraggableWindow>
 
-
-        </div>
+    
     )
 }

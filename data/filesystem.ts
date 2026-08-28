@@ -43,15 +43,48 @@ Frontend:
     },
 
     Projects: [
-        "Circulr",
-        "Modufy",
-        "PokemonBidWars"
+        {
+            name: "FireSideTalks",
+            url: "https://firesidetalk.pages.dev"
+        },
+        {
+            name: "Modufy",
+            url: "https://your-modufy-url.com"
+        },
+        {
+            name: "PokemonBidWars",
+            url: "https://pokemonbidwars.pages.dev"
+        }
     ],
 
-    Notes: [
-        "ideas.txt",
-        "todo.txt",
-        "random.txt"
-    ],
-    Comments:[]
+    Notes: {
+        type: "folder",
+        children: {
+            "ideas.txt": {
+                type: "file",
+                content: `Ideas
+
+- Make RyukOS draggable
+- Add terminal commands
+- Add more apps
+`
+            },
+            "random.txt":{
+                type:"file",
+                content:`Random thoughts...
+
+This is my little OS.`
+            },
+
+            "todos.txt": {
+                type: "file",
+                content: `TODO
+
+- Finish RyukOS
+- Add settings
+- Add window manager`
+            }
+        }
+    },
+    Comments: []
 };

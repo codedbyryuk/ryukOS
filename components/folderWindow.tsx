@@ -5,7 +5,7 @@ import { filesystem } from "@/data/filesystem";
 import TextFileWindow from "./textFileWindow";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-
+import DraggableWindow from "./dragabbleWindow";
 type CommentFile = {
     name: string;
     type: "file";
@@ -54,7 +54,7 @@ export default function FolderWindow({
             setComments(fetchedComments);
         });
 
-        return() => unsubscribe();
+        return () => unsubscribe();
 
     }, [folderName]);
 
@@ -62,12 +62,9 @@ export default function FolderWindow({
     return (
         <>
             {/* Folder Window */}
+            <DraggableWindow className="absolute left-100 top-50 flex h-[620px] w-[750px] flex-col overflow-hidden rounded-xl border border-black/10 bg-[#f5f5f5] text-black shadow-2xl"
 
-            <div className="absolute left-100 top-50 flex h-[620px] w-[750px] flex-col overflow-hidden rounded-xl border border-black/10 bg-[#f5f5f5] text-black shadow-2xl">
-
-                {/* Title bar */}
-
-                <div className="flex h-12 shrink-0 items-center justify-between border-b border-black/10 bg-[#eeeeee] px-4">
+                titleBar={<div className="flex h-12 shrink-0 items-center justify-between border-b border-black/10 bg-[#eeeeee] px-4">
 
                     <div className="flex items-center gap-2">
 
@@ -89,7 +86,13 @@ export default function FolderWindow({
                         ×
                     </button>
 
-                </div>
+                </div>}
+            >
+
+
+                {/* Title bar */}
+
+
 
 
                 {/* Files */}
@@ -135,24 +138,47 @@ export default function FolderWindow({
 
                         {Array.isArray(files) &&
                             folderName !== "Comments" &&
-                            files.map((fileName) => (
+                            files.map((file) => {
 
-                                <div
-                                    key={fileName}
-                                    className="flex cursor-pointer flex-col items-center gap-2 rounded-lg p-3 hover:bg-blue-50"
-                                >
+                                if (typeof file === "string") {
+                                    return (
+                                        <div
+                                            key={file}
+                                            className="flex cursor-pointer flex-col items-center gap-2 rounded-lg p-3 hover:bg-blue-50"
+                                        >
+                                            <div className="text-4xl">
+                                                📄
+                                            </div>
 
-                                    <div className="text-4xl">
-                                        📄
+                                            <span className="max-w-24 truncate text-center text-[18px]">
+                                                {file}
+                                            </span>
+                                        </div>
+                                    );
+                                }
+
+                                return (
+                                    <div
+                                        key={file.name}
+                                        onDoubleClick={() => {
+                                            window.open(
+                                                file.url,
+                                                "_blank",
+                                                "noopener,noreferrer"
+                                            );
+                                        }}
+                                        className="flex cursor-pointer flex-col items-center gap-2 rounded-lg p-3 hover:bg-blue-50"
+                                    >
+                                        <div className="text-4xl">
+                                            📄
+                                        </div>
+
+                                        <span className="max-w-24 truncate text-center text-[18px]">
+                                            {file.name}
+                                        </span>
                                     </div>
-
-                                    <span className="max-w-24 truncate text-center text-[18px]">
-                                        {fileName}
-                                    </span>
-
-                                </div>
-
-                            ))
+                                );
+                            })
                         }
 
 
@@ -217,18 +243,19 @@ export default function FolderWindow({
                 </div>
 
 
-            </div>
 
 
-            {/* Text File Window */}
 
-            {openFile && (
-                <TextFileWindow
-                    fileName={openFile.name}
-                    content={openFile.content}
-                    onClose={() => setOpenFile(null)}
-                />
-            )}
+                {/* Text File Window */}
+
+                {openFile && (
+                    <TextFileWindow
+                        fileName={openFile.name}
+                        content={openFile.content}
+                        onClose={() => setOpenFile(null)}
+                    />
+                )}
+            </DraggableWindow>
 
         </>
     );

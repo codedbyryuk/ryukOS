@@ -3,6 +3,7 @@
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp, doc } from "firebase/firestore";
 import { useState } from "react";
+import DraggableWindow from "./dragabbleWindow";
 
 type NotepadProps = {
     onClose: () => void;
@@ -69,24 +70,24 @@ export default function Notepad({ onClose }: NotepadProps) {
     };
 
     return (
-        <div className="absolute left-40 top-20 flex h-[600px] w-[700px] flex-col overflow-hidden rounded-[12px] border border-black/20 bg-[#f5f5f5] text-black shadow-2xl">
+        
+            
+            <DraggableWindow className="absolute left-40 top-20 flex h-[600px] w-[700px] flex-col overflow-hidden rounded-[12px] border border-black/20 bg-[#f5f5f5] text-black shadow-2xl"
+                titleBar={<div className="flex h-10 shrink-0 items-center justify-between bg-[#e7e7e7] px-4">
 
-            {/* Title bar */}
+                    <span className="text-sm font-medium">
+                        Notepad
+                    </span>
 
-            <div className="flex h-10 shrink-0 items-center justify-between bg-[#e7e7e7] px-4">
+                    <button
+                        onClick={onClose}
+                        className="flex h-7 w-7 items-center justify-center rounded text-black hover:bg-red-500 hover:text-white"
+                    >
+                        ×
+                    </button>
 
-                <span className="text-sm font-medium">
-                    Notepad
-                </span>
+                </div>}>
 
-                <button
-                    onClick={onClose}
-                    className="flex h-7 w-7 items-center justify-center rounded text-black hover:bg-red-500 hover:text-white"
-                >
-                    ×
-                </button>
-
-            </div>
 
 
             {/* Name */}
@@ -132,7 +133,8 @@ export default function Notepad({ onClose }: NotepadProps) {
                 </button>
 
             </div>
+            </DraggableWindow>
 
-        </div>
+        
     );
 }

@@ -49,7 +49,7 @@ Frontend:
         },
         {
             name: "Modufy",
-            url: "modufy-workspace.pages.dev"
+            url: "https://modufy-workspace.pages.dev"
         },
         {
             name: "PokemonBidWars",

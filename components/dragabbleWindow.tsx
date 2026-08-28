@@ -86,7 +86,7 @@ export default function DraggableWindow({
             className={`absolute ${className}`}
         >
 
-            {/* TITLE BAR = DRAG HANDLE */}
+            
 
             <div
                 onMouseDown={startDrag}

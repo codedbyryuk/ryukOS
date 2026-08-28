@@ -31,9 +31,7 @@ export default function FolderWindow({
 
     const [comments, setComments] = useState<CommentFile[]>([]);
 
-    /*
-     * Load saved comments when the Comments folder is opened.
-     */
+  
     useEffect(() => {
 
         if (folderName !== "Comments") return;
@@ -134,7 +132,7 @@ export default function FolderWindow({
                         }
 
 
-                        {/* Normal folders such as Notes */}
+                       
 
                         {Array.isArray(files) &&
                             folderName !== "Comments" &&

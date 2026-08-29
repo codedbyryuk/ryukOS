@@ -11,7 +11,8 @@
 
 * **Next.js**
 * **Tailwind CSS**
-* **Firebase / Firestore**
+* **Firebase**
+
 
 ## NOTE
 
